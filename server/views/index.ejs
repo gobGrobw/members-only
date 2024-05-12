@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../stylesheets/template.css" />
+		<link rel="stylesheet" href="../stylesheets/index.css" />
+		<title>Message</title>
+	</head>
+	<body>
+		<!-- Title -->
+		<header>
+			<div>
+				<a href="/homepage/member">Become a member</a>
+				<a href="/homepage/log-in">Log in</a>
+				<a href="/homepage/sign-in">Sign in</a>
+			</div>
+		</header>
+
+		<main>
+			<% if (user) { %>
+			<h1>Welcome, <span><%= user.username %></span></h1>
+			<% } else { %>
+			<h1>
+				Welcome to
+				<span>Members-Only</span>
+				Club
+			</h1>
+			<h2>
+				<a href="/homepage/sign-in">Sign in</a>
+				to post a message!
+			</h2>
+			<% } %>
+			<h2>
+				Become a
+				<a href="/homepage/member">member</a>
+				to look at author and date of a message
+			</h2>
+		</main>
+
+		<!-- All messages -->
+		<section>
+			<% if (messages) { %>
+			<h3>No messages has been posted</h3>
+			<% } else { %>
+			<ul>
+				<% for(const message of messages) { %>
+				<li><%= message %></li>
+				<% } %>
+			</ul>
+			<% } %>
+		</section>
+	</body>
+</html>
+
