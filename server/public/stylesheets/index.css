@@ -26,6 +26,7 @@ header div a {
 	padding: 5px 10px 5px 10px;
 	transition: 100ms ease-in-out;
 	border-radius: 3px;
+	text-align: center;
 }
 
 header div a:hover {
@@ -41,8 +42,6 @@ section {
 	margin-top: 5vh;
 	padding: 10px;
 	width: 80vh;
-	border: 2px solid white;
-	border-radius: 3px;
 }
 
 section h3 {
@@ -61,3 +60,77 @@ main h2 a:hover {
 span {
 	color: rgb(113, 30, 190);
 }
+
+#post-message-btn {
+	color: white;
+	background-color: rgb(94, 29, 155);
+}
+
+#post-message-btn:hover {
+	background-color: rgb(110, 37, 179);
+}
+
+ul {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 35px;
+}
+
+ul li {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+}
+
+ul li div {
+	display: flex;
+	flex-direction: column;
+}
+
+ul li fieldset {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+	min-width: 10px;
+}
+
+ul li fieldset legend {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#msg {
+	overflow-wrap: break-word;
+}
+
+@media (max-width: 795px) {
+	ul li fieldset {
+		margin: 0 25% 0 25%;
+	}
+
+	main {
+		margin-top: 3vh;
+	}
+
+	main h2 {
+		overflow-wrap: break-word;
+		font-size: 14px;
+	}
+
+	header {
+		display: flex;
+		justify-content: center;
+	
+		margin: 5% 30% 0 30%;
+	
+		font-size: 20px;
+	}
+
+	section {
+		margin-top: 2vh;
+	}
+}
+

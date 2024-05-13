@@ -11,16 +11,31 @@
 		<!-- Title -->
 		<header>
 			<div>
+				<% if (user) { %>
+				<a href="/homepage/post-message" id="post-message-btn">Post a message</a>
+				<% if (user.status !== 'member' && user.status !== 'admin') { %>
 				<a href="/homepage/member">Become a member</a>
+				<% } else if (user.status !== 'admin'){ %>
+				<a href="/homepage/admin">Become an admin</a>
+				<% } %>
+				<a href="/homepage/log-out">Log out</a>
+				<% } else { %>
 				<a href="/homepage/log-in">Log in</a>
 				<a href="/homepage/sign-in">Sign in</a>
+				<% } %>
 			</div>
 		</header>
 
 		<main>
 			<% if (user) { %>
 			<h1>Welcome, <span><%= user.username %></span></h1>
-			<% } else { %>
+			<% if (user.status !== 'admin' || user.status !== 'member') { %>
+			<h2>
+				Become a
+				<span style="color: rgb(113, 30, 190)">member</span>
+				to look at author and date of a message
+			</h2>
+			<% } %> <% } else { %>
 			<h1>
 				Welcome to
 				<span>Members-Only</span>
@@ -31,21 +46,34 @@
 				to post a message!
 			</h2>
 			<% } %>
-			<h2>
-				Become a
-				<a href="/homepage/member">member</a>
-				to look at author and date of a message
-			</h2>
 		</main>
 
 		<!-- All messages -->
 		<section>
-			<% if (messages) { %>
+			<% if (messages.length === 0) { %>
 			<h3>No messages has been posted</h3>
 			<% } else { %>
 			<ul>
 				<% for(const message of messages) { %>
-				<li><%= message %></li>
+				<li>
+					<fieldset>
+						<legend><%= message.title %></legend>
+						<% if (user) { %>
+						<div>
+							<% if (user.status === 'member' || user.status ==='admin') { %>
+							<p>Posted by: <%= user.username %></p>
+							<p>At: <%= message.date_formatted %></p>
+							<% } %>
+						</div>
+						<% } %>
+						<p id="msg"><%= message.message %></p>
+						<% if (user) { %> <% if (user.status === 'admin') { %>
+						<form action="/homepage/delete/<%= message._id %>" method="POST">
+							<button type="submit" style="color: black">Delete</button>
+						</form>
+						<% } %> <% } %>
+					</fieldset>
+				</li>
 				<% } %>
 			</ul>
 			<% } %>

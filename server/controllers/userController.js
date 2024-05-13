@@ -53,5 +53,52 @@ module.exports = {
 		successRedirect: '/',
 		failureRedirect: '/homepage/log-in',
 	}),
+
+	log_out_GET: (req, res, next) => {
+		req.logout((err) => {
+			if (err) return next(err);
+			res.redirect('/');
+		});
+	},
+
+	member_GET: (req, res) => {
+		res.render('member-form');
+	},
+
+	member_POST: [
+		body('member').trim().isIn(['member']).withMessage("Just type 'member'").escape(),
+
+		asyncHandler(async (req, res, next) => {
+			const user = new User({
+				_id: res.locals.currentUser.id,
+				username: res.locals.currentUser.username,
+				password: res.locals.currentUser.password,
+				status: 'member',
+			});
+
+			await User.findByIdAndUpdate(res.locals.currentUser.id, user);
+			res.redirect('/');
+		}),
+	],
+
+	admin_GET: (req, res) => {
+		res.render('be-admin-form');
+	},
+
+	admin_POST: [
+		body('admin-pw', 'Incorrect!').trim().isIn(['greatGob123']).escape(),
+
+		asyncHandler(async (req, res, next) => {
+			const user = new User({
+				_id: res.locals.currentUser.id,
+				username: res.locals.currentUser.username,
+				password: res.locals.currentUser.password,
+				status: 'admin',
+			});
+
+			await User.findByIdAndUpdate(res.locals.currentUser.id, user);
+			res.redirect('/');
+		}),
+	],
 };
 

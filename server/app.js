@@ -5,6 +5,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const MongoStore = require('connect-mongo');
 require('dotenv').config();
 
 // Setting routes
@@ -36,6 +37,7 @@ app.use(
 		cookie: {
 			maxAge: 1 * 24 * 60 * 60 * 1000,
 		},
+		store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
 	})
 );
 app.use(passport.session());
@@ -54,12 +56,10 @@ passport.use(
 	new localStrategy(async (username, password, done) => {
 		try {
 			const user = await User.findOne({ username: username }).exec();
-			if (!user)
-				return done(null, false, { message: 'Incorrect username' });
+			if (!user) return done(null, false, { message: 'Incorrect username' });
 
 			const match = await bcrypt.compare(password, user.password);
-			if (!match)
-				return done(null, false, { message: 'Incorrect password' });
+			if (!match) return done(null, false, { message: 'Incorrect password' });
 
 			return done(null, user);
 		} catch (error) {
